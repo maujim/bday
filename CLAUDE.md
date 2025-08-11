@@ -67,3 +67,4 @@ hooks/                # Custom hooks for theme and color management
 - StyleSheet.create() for performance optimized styles
 - Themed components automatically adapt to light/dark mode
 - Custom SpaceMono font loaded in root layout
+- use pnpm
