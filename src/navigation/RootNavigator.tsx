@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useAuth } from '../context/AuthContext';
@@ -10,15 +10,6 @@ const RootStack = createStackNavigator();
 
 export const RootNavigator: React.FC = () => {
   const { isOnboardingComplete } = useAuth();
-  const [isCardCreatorVisible, setIsCardCreatorVisible] = useState(false);
-
-  const handleCardCreatorPress = () => {
-    setIsCardCreatorVisible(true);
-  };
-
-  const handleCardCreatorClose = () => {
-    setIsCardCreatorVisible(false);
-  };
 
   return (
     <NavigationContainer>
@@ -30,23 +21,16 @@ export const RootNavigator: React.FC = () => {
         {!isOnboardingComplete ? (
           <RootStack.Screen name="Onboarding" component={OnboardingStack} />
         ) : (
-          <RootStack.Screen name="Main">
-            {() => <MainTabNavigator onCardCreatorPress={handleCardCreatorPress} />}
-          </RootStack.Screen>
-        )}
-        
-        {isCardCreatorVisible && (
-          <RootStack.Screen
-            name="CardCreatorModal"
-            component={CardCreatorModalStack}
-            options={{
-              presentation: 'modal',
-              headerShown: false,
-            }}
-            listeners={{
-              beforeRemove: handleCardCreatorClose,
-            }}
-          />
+          <>
+            <RootStack.Screen name="Main" component={MainTabNavigator} />
+            <RootStack.Screen
+              name="CardCreatorModal"
+              component={CardCreatorModalStack}
+              options={{
+                presentation: 'modal',
+              }}
+            />
+          </>
         )}
       </RootStack.Navigator>
     </NavigationContainer>

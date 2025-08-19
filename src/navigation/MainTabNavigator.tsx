@@ -1,6 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { HomeScreen, CalendarScreen, GiftsScreen } from '../screens/main';
 import { ProfileStack } from './ProfileStack';
@@ -8,15 +9,21 @@ import { colors } from '../theme/colors';
 
 const Tab = createBottomTabNavigator();
 
-const FloatingActionButton: React.FC<{ onPress: () => void }> = ({ onPress }) => (
-  <TouchableOpacity style={styles.fab} onPress={onPress}>
-    <Ionicons name="add" size={32} color={colors.white} />
-  </TouchableOpacity>
-);
+const FloatingActionButton: React.FC = () => {
+  const navigation = useNavigation();
+  
+  const handlePress = () => {
+    navigation.navigate('CardCreatorModal' as never);
+  };
 
-export const MainTabNavigator: React.FC<{ onCardCreatorPress: () => void }> = ({ 
-  onCardCreatorPress 
-}) => {
+  return (
+    <TouchableOpacity style={styles.fab} onPress={handlePress}>
+      <Ionicons name="add" size={32} color={colors.white} />
+    </TouchableOpacity>
+  );
+};
+
+export const MainTabNavigator: React.FC = () => {
   return (
     <View style={styles.container}>
       <Tab.Navigator
@@ -58,7 +65,7 @@ export const MainTabNavigator: React.FC<{ onCardCreatorPress: () => void }> = ({
         <Tab.Screen name="Profile" component={ProfileStack} />
       </Tab.Navigator>
       
-      <FloatingActionButton onPress={onCardCreatorPress} />
+      <FloatingActionButton />
     </View>
   );
 };
