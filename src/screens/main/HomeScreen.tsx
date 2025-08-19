@@ -1,12 +1,20 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { ScreenContainer } from '../../components';
+import React, { useState } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { ScreenContainer, StyledTextInput } from '../../components';
 
 export const HomeScreen: React.FC = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+
   return (
     <ScreenContainer>
       <View style={styles.container}>
-        <Text style={styles.title}>Home Screen</Text>
+        <View style={styles.searchContainer}>
+          <StyledTextInput
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+            placeholder="Search for friends..."
+          />
+        </View>
       </View>
     </ScreenContainer>
   );
@@ -15,11 +23,9 @@ export const HomeScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    paddingTop: 20,
   },
-  title: {
-    fontSize: 24,
-    color: '#FFFFFF',
+  searchContainer: {
+    marginBottom: 20,
   },
 });
