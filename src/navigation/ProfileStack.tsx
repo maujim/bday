@@ -10,7 +10,7 @@ export const ProfileStack: React.FC = () => {
       <Stack.Screen 
         name="ProfileMain" 
         component={ProfileScreen}
-        options={{ title: 'Profile' }}
+        options={{ headerShown: false }}
       />
       <Stack.Screen 
         name="Settings" 
