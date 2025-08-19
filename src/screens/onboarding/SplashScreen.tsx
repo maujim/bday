@@ -1,8 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { ScreenContainer } from '../../components';
+import { colors } from '../../theme/colors';
 
 export const SplashScreen: React.FC = () => {
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigation.navigate('PhoneNumber' as never);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, [navigation]);
+
   return (
     <ScreenContainer>
       <View style={styles.container}>
@@ -21,6 +33,6 @@ const styles = StyleSheet.create({
   logo: {
     fontSize: 32,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.text,
   },
 });
