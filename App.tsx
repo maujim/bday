@@ -1,9 +1,10 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
+import { registerRootComponent } from 'expo';
 import { AuthProvider } from './src/context/AuthContext';
 import { RootNavigator } from './src/navigation';
 
-export default function App() {
+function App() {
   return (
     <AuthProvider>
       <RootNavigator />
@@ -11,3 +12,5 @@ export default function App() {
     </AuthProvider>
   );
 }
+
+export default registerRootComponent(App);
