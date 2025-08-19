@@ -1,4 +1,5 @@
-import { Alert, StyleSheet } from 'react';
+import { Alert } from 'react';
+import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { BirthdayForm } from '@/components/BirthdayForm';

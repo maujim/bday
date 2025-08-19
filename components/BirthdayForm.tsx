@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { StyleSheet, TextInput, TouchableOpacity, Alert, Platform } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { DateInput } from '@/components/DateInput';
 import { BirthdayFormData, Birthday } from '@/types/birthday';
 import { useThemeColor } from '@/hooks/useThemeColor';
 
@@ -17,18 +17,14 @@ export function BirthdayForm({ initialData, onSubmit, onCancel, submitButtonText
   const [name, setName] = useState(initialData?.name || '');
   const [date, setDate] = useState(initialData ? new Date(initialData.date) : new Date());
   const [notes, setNotes] = useState(initialData?.notes || '');
-  const [showDatePicker, setShowDatePicker] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const textColor = useThemeColor({}, 'text');
   const borderColor = useThemeColor({}, 'tabIconDefault');
   const buttonColor = useThemeColor({}, 'tint');
 
-  const handleDateChange = (event: any, selectedDate?: Date) => {
-    setShowDatePicker(Platform.OS === 'ios');
-    if (selectedDate) {
-      setDate(selectedDate);
-    }
+  const handleDateChange = (selectedDate: Date) => {
+    setDate(selectedDate);
   };
 
   const handleSubmit = async () => {
@@ -58,14 +54,6 @@ export function BirthdayForm({ initialData, onSubmit, onCancel, submitButtonText
     }
   };
 
-  const formatDate = (date: Date) => {
-    return date.toLocaleDateString('en-US', { 
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long', 
-      day: 'numeric' 
-    });
-  };
 
   return (
     <ThemedView style={styles.container}>
@@ -93,12 +81,11 @@ export function BirthdayForm({ initialData, onSubmit, onCancel, submitButtonText
           <ThemedText type="defaultSemiBold" style={styles.label}>
             Birthday *
           </ThemedText>
-          <TouchableOpacity 
-            style={[styles.dateButton, { borderColor }]}
-            onPress={() => setShowDatePicker(true)}
-          >
-            <ThemedText>{formatDate(date)}</ThemedText>
-          </TouchableOpacity>
+          <DateInput
+            value={date}
+            onChange={handleDateChange}
+            style={styles.dateInput}
+          />
         </ThemedView>
 
         <ThemedView style={styles.fieldContainer}>
@@ -119,17 +106,40 @@ export function BirthdayForm({ initialData, onSubmit, onCancel, submitButtonText
 
         <ThemedView style={styles.buttonContainer}>
           <TouchableOpacity 
-            style={[styles.button, styles.cancelButton, { borderColor }]}
+            style={[
+              styles.button, 
+              styles.cancelButton, 
+              { borderColor },
+              isSubmitting && styles.disabledButton,
+              Platform.OS === 'web' && styles.webButton
+            ]}
             onPress={onCancel}
             disabled={isSubmitting}
+            activeOpacity={0.7}
+            accessibilityRole="button"
+            accessibilityLabel="Cancel"
           >
-            <ThemedText style={styles.cancelButtonText}>Cancel</ThemedText>
+            <ThemedText style={[
+              styles.cancelButtonText,
+              isSubmitting && styles.disabledText
+            ]}>
+              Cancel
+            </ThemedText>
           </TouchableOpacity>
           
           <TouchableOpacity 
-            style={[styles.button, styles.submitButton, { backgroundColor: buttonColor }]}
+            style={[
+              styles.button, 
+              styles.submitButton, 
+              { backgroundColor: buttonColor },
+              (isSubmitting || !name.trim()) && styles.disabledSubmitButton,
+              Platform.OS === 'web' && styles.webButton
+            ]}
             onPress={handleSubmit}
             disabled={isSubmitting || !name.trim()}
+            activeOpacity={0.7}
+            accessibilityRole="button"
+            accessibilityLabel={submitButtonText}
           >
             <ThemedText style={styles.submitButtonText}>
               {isSubmitting ? 'Saving...' : submitButtonText}
@@ -137,16 +147,6 @@ export function BirthdayForm({ initialData, onSubmit, onCancel, submitButtonText
           </TouchableOpacity>
         </ThemedView>
       </ThemedView>
-
-      {showDatePicker && (
-        <DateTimePicker
-          value={date}
-          mode="date"
-          display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-          onChange={handleDateChange}
-          maximumDate={new Date()}
-        />
-      )}
     </ThemedView>
   );
 }
@@ -178,10 +178,8 @@ const styles = StyleSheet.create({
   notesInput: {
     minHeight: 80,
   },
-  dateButton: {
-    borderWidth: 1,
-    borderRadius: 8,
-    padding: 12,
+  dateInput: {
+    // DateInput component handles its own styling
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -207,5 +205,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'white',
     fontWeight: '600',
+  },
+  webButton: {
+    cursor: 'pointer',
+  },
+  disabledButton: {
+    opacity: 0.5,
+  },
+  disabledSubmitButton: {
+    opacity: 0.5,
+    cursor: 'not-allowed',
+  },
+  disabledText: {
+    opacity: 0.5,
   },
 });

@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, TouchableOpacity, Alert, Platform } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { IconSymbol } from '@/components/ui/IconSymbol';
@@ -70,6 +70,10 @@ export function BirthdayCard({ birthday, onPress, onDelete }: BirthdayCardProps)
       onPress={onPress}
       onLongPress={handleLongPress}
       activeOpacity={0.7}
+      accessibilityRole="button"
+      accessibilityLabel={`${birthday.name}'s birthday card`}
+      accessibilityHint="Tap to edit, long press to delete"
+      style={Platform.OS === 'web' ? { cursor: 'pointer' } : undefined}
     >
       <ThemedView style={[styles.card, { borderColor }]}>
         <ThemedView style={styles.leftContent}>
