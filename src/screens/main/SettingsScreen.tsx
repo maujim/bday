@@ -1,7 +1,8 @@
 import React from 'react';
-import { ScrollView, Text, StyleSheet, View } from 'react-native';
+import { ScrollView, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { ScreenContainer } from '../../components';
 import { colors } from '../../theme/colors';
+import { useAuth } from '../../context/AuthContext';
 
 const settingsItems = [
   'Account Settings',
@@ -16,17 +17,35 @@ const settingsItems = [
   'Terms of Service',
   'Privacy Policy',
   'App Version 1.0.0',
+  'View Onboarding',
   'Sign Out',
 ];
 
 export const SettingsScreen: React.FC = () => {
+  const { setOnboardingComplete } = useAuth();
+
+  const handleSettingPress = (item: string) => {
+    if (item === 'View Onboarding') {
+      setOnboardingComplete(false);
+    }
+  };
+
   return (
     <ScreenContainer>
       <ScrollView style={styles.container}>
         {settingsItems.map((item, index) => (
-          <View key={index} style={styles.settingItem}>
-            <Text style={styles.settingText}>{item}</Text>
-          </View>
+          <TouchableOpacity 
+            key={index} 
+            style={styles.settingItem}
+            onPress={() => handleSettingPress(item)}
+          >
+            <Text style={[
+              styles.settingText,
+              item === 'View Onboarding' && styles.onboardingText
+            ]}>
+              {item}
+            </Text>
+          </TouchableOpacity>
         ))}
       </ScrollView>
     </ScreenContainer>
@@ -47,5 +66,9 @@ const styles = StyleSheet.create({
   settingText: {
     fontSize: 16,
     color: colors.text,
+  },
+  onboardingText: {
+    color: colors.primary,
+    fontWeight: '600',
   },
 });
