@@ -57,6 +57,7 @@ export const VerificationScreen: React.FC = () => {
                 keyboardType="numeric"
                 maxLength={1}
                 textAlign="center"
+                textAlignVertical="center"
               />
             ))}
           </View>
@@ -117,6 +118,11 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     color: colors.text,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 0,
+    paddingBottom: 0,
+    includeFontPadding: false,
   },
   buttonContainer: {
     marginTop: 32,
