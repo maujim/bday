@@ -62,7 +62,11 @@ export const MainTabNavigator: React.FC = () => {
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Calendar" component={CalendarScreen} />
         <Tab.Screen name="Gifts" component={GiftsScreen} />
-        <Tab.Screen name="Profile" component={ProfileStack} />
+        <Tab.Screen 
+          name="Profile" 
+          component={ProfileStack}
+          options={{ headerShown: false }}
+        />
       </Tab.Navigator>
       
       <FloatingActionButton />

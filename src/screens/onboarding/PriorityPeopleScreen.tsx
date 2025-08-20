@@ -33,17 +33,19 @@ export const PriorityPeopleScreen: React.FC = () => {
   return (
     <ScreenContainer>
       <View style={styles.container}>
-        <Text style={styles.title}>Priority People</Text>
-        <Text style={styles.subtitle}>
-          Select the people whose birthdays matter most to you
-        </Text>
-        
-        <View style={styles.searchContainer}>
-          <StyledTextInput
-            value={searchQuery}
-            onChangeText={setSearchQuery}
-            placeholder="Search contacts..."
-          />
+        <View style={styles.headerContent}>
+          <Text style={styles.title}>Priority People</Text>
+          <Text style={styles.subtitle}>
+            Select the people whose birthdays matter most to you
+          </Text>
+          
+          <View style={styles.searchContainer}>
+            <StyledTextInput
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+              placeholder="Search contacts..."
+            />
+          </View>
         </View>
         
         <FlatList
@@ -57,6 +59,7 @@ export const PriorityPeopleScreen: React.FC = () => {
             />
           )}
           style={styles.list}
+          contentContainerStyle={styles.listContent}
           showsVerticalScrollIndicator={false}
         />
         
@@ -74,6 +77,9 @@ export const PriorityPeopleScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  headerContent: {
+    paddingBottom: 8,
   },
   title: {
     fontSize: 28,
@@ -95,7 +101,12 @@ const styles = StyleSheet.create({
   list: {
     flex: 1,
   },
+  listContent: {
+    paddingBottom: 16,
+  },
   buttonContainer: {
     paddingTop: 16,
+    paddingBottom: 8,
+    backgroundColor: colors.background,
   },
 });
